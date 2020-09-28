@@ -148,4 +148,13 @@ class Products with ChangeNotifier {
     _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }
+
+  Future<void> updateFavorite(String id) async {
+    final url = 'https://flutter-update-ba197.firebaseio.com/products/$id.json';
+    var response = await http.patch(url, body: json.encode({
+      'isFavorite': !_items.firstWhere((item) => item.id == id).isFavorite,
+    }));
+    notifyListeners();
+  }
+
 }
